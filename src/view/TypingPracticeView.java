@@ -1,5 +1,8 @@
 package view;
 
+import controller.TypingPracticeController;
+import controller.TypingPracticeControllerMediator;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,22 +11,18 @@ public class TypingPracticeView
 {
     private JProgressBar progressBar;
     private JTextPane readingTextBar;
-    private JPanel typingTextBar;
     private JPanel timer;
     private JPanel wpm;
     private JPanel accuracy;
 
     private JButton mainMenuButton;
 
-    public TypingPracticeView()
+    public TypingPracticeView(TypingPracticeControllerMediator typingPracticeControllerMediator)
     {
         mainMenuButton = new JButton("Main Menu");
         progressBar = new JProgressBar();
-        readingTextBar = new CustomTextPane();
-        readingTextBar.setFocusable(false);
-        readingTextBar.setEditable(false);
-        typingTextBar = new JPanel();
-        typingTextBar.setBackground(Color.GREEN);
+        this.readingTextBar = new CustomTextPane(typingPracticeControllerMediator);
+
         timer = new JPanel();
         timer.setBackground(Color.RED);
         wpm = new JPanel();
@@ -56,16 +55,12 @@ public class TypingPracticeView
         // row 0 col 0
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.ipady = 5; // height 5
         mainPanel.add(progressBar, gbc); // add progress bar
         // row 1 col 0
         gbc.gridy = 1;
-        gbc.ipady = 200; // height 70
+        gbc.gridheight = 2;
         mainPanel.add(readingTextBar, gbc); // add reading text bar
-        // row 2 col 0
-        gbc.gridy = 2;
-        gbc.ipady = 25; // height 25
-        mainPanel.add(typingTextBar, gbc); // add typing text bar
+        gbc.gridheight = 1;
 
         // creating stats display panel, holding timer, wpm, accuracy
         var currentStatsDisplayPanel = new JPanel(new GridBagLayout());

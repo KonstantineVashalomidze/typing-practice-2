@@ -1,11 +1,6 @@
 package model;
 
-import view.MenuView;
-import view.ResultsStatsView;
-import view.TypingPracticeView;
-
-import javax.swing.*;
-import java.awt.*;
+import controller.Controller;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,16 +9,17 @@ public class MainModel
 {
     private String[] words; // containing words from text file words.txt
     private int wordsCount; // is length of the lines in words.txt
+    private Controller[] controllers; // all controllers on the main frame, is necessary for redirections
 
-    private JPanel[] pages; // all pages on the main frame, is necessary for redirections
 
 
-    public MainModel()
+    public MainModel(Controller[] controllers)
     {
+        this.controllers = controllers;
         wordsCount = 466_550; // file containing this many lines
         // load words from file into array
         loadWords();
-        createPages(); // create pages for redirection
+
 
     } // end of MainModel()
 
@@ -53,18 +49,21 @@ public class MainModel
         }
     } // end of loadWords()
 
-    private void createPages()
-    // create pages of jpanels for redirection
+    public Controller[] getControllers()
     {
-        pages = new JPanel[]
-                {
-                    new MenuView(), new TypingPracticeView(), new ResultsStatsView()
-                };
-    } // edf of createPages()
+        return controllers;
+    }
 
-    public JPanel[] getPages()
+    public Controller getControllerByClassName(String className)
     {
-        return pages;
+        for (Controller controller : controllers)
+        {
+            if (className.equals(controller.getClass().getSimpleName()))
+            {
+                return controller;
+            }
+        }
+        return null;
     }
 
     public String easyRandomMode()
